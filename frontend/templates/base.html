@@ -1,0 +1,29 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <title>Django Tailwind</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+		{% tailwind_css %}
+	</head>
+    <nav class=" bg-gold flex">
+        <div class="container mx-auto my-3 flex flex-row justify-between">
+            <h3 class="text-white text-xl font-thalia">Thalia lustrum game</h3>
+            <button class="text-black text-xl font-thalia bg-white px-5 rounded-md">
+                <h3>Login</h3>
+            </button>
+        </div>
+    </nav>
+	<body class="bg-gray-50 font-serif leading-normal tracking-normal">
+		<div class="container mx-auto">
+			<section class="flex items-center justify-center h-screen">
+				<h1 class="text-5xl text-primary font-thalia">Welcome to the lustrum game!</h1>
+			</section>
+		</div>
+	</body>
+</html>
