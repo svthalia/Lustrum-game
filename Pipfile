@@ -5,9 +5,10 @@ name = "pypi"
 
 [packages]
 django = "*"
+decouple = "*"
+config = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.9"
-

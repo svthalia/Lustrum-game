@@ -13,10 +13,19 @@
 	</head>
     <nav class=" bg-gold flex">
         <div class="container mx-auto my-3 flex flex-row justify-between">
-            <h3 class="text-white text-xl font-thalia">Thalia lustrum game</h3>
-            <button class="text-black text-xl font-thalia bg-white px-5 rounded-md">
-                <h3>Login</h3>
-            </button>
+            <h3 class="text-white text-xl font-thalia self-center">Thalia lustrum game</h3>
+            {% if request.session.user == None %}
+                <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md">
+                    <h3>Login</h3>
+                </button>
+            {% else %}
+                <div class="flex flex-row justify-center">
+                    <h3 class="text-white mr-5 text-xl font-thalia text-center self-center">Hello {{ request.session.user.name }}</h3>
+                    <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md">
+                        <h3>Logout</h3>
+                    </button>
+                </div>
+            {% endif  %}
         </div>
     </nav>
 	<body class="bg-gray-50 font-serif leading-normal tracking-normal">
