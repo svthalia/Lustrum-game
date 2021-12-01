@@ -3,7 +3,7 @@ from authlib.integrations.django_client import OAuth
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from frontend.models import User
+from frontend.models import User, Player
 
 oauth = OAuth()
 oauth.register(
@@ -20,6 +20,7 @@ oauth.register(
 
 def index(request):
     context = {}
+
     return render(request, 'base.html', context)
 
 
@@ -31,15 +32,24 @@ def login(request):
 def auth(request):
     token = oauth.thalia.authorize_access_token(request)
     resp = oauth.thalia.get('', token=token)
-    print(token, resp)
-    # if resp.status != 404:
-    print(resp.json())
     user = resp.json()
-    print(User.objects.filter(pk=user['pk']))
-    if User.objects.filter(pk=user['pk']).count() == 0:
-        print("CREATE")
+    query = User.objects.filter(pk=user['pk'])
+    if query.count() == 0:
         User.objects.create(id=user['pk'], name=user['profile']['display_name'], profilePicture=user['profile']['photo']['full'])
-        request.session['user'] = {'name': user['profile']['display_name'], 'profilePicture': user['profile']['photo']['full']}
+        request.session['user'] = {'name': user['profile']['display_name'], 'profilePicture': user['profile']['photo']['full'], 'isPlayer': False}
+    elif query.count() == 1:
+        # TODO: Check if name or pf has changed, then also update in our db
+        #player_query = Player.objects.filter(user=query.first())
+        #if player_query.count() == 0:
+         #   print("NOTHIONG")
+        request.session['user'] = {'name': user['profile']['display_name'], 'profilePicture': user['profile']['photo']['full'], 'isPlayer': False}
+        # else:
+        #     print("ELSE", player_query.first().victim.get().count())
+        #     request.session['user'] = {'name': user['profile']['display_name'],
+        #                                'profilePicture': user['profile']['photo']['full'], 'isPlayer': True,
+        #                                'victimName': player_query.first().victim.user.name,
+        #                                'victimPicture': player_query.first().victim.user.profilePicture,
+        #                                }
     return redirect('/')
 
 

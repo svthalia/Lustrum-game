@@ -16,23 +16,34 @@
             <h3 class="text-white text-xl font-thalia self-center">Thalia lustrum game</h3>
             {% if request.session.user == None %}
                 <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md">
-                    <h3>Login</h3>
+                    <a href="/login">Login</a>
                 </button>
             {% else %}
                 <div class="flex flex-row justify-center">
                     <h3 class="text-white mr-5 text-xl font-thalia text-center self-center">Hello {{ request.session.user.name }}</h3>
                     <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md">
-                        <h3>Logout</h3>
+                        <a href="/logout">Logout</a>
                     </button>
                 </div>
             {% endif  %}
         </div>
     </nav>
-	<body class="bg-gray-50 font-serif leading-normal tracking-normal">
+	<body class="">
 		<div class="container mx-auto">
-			<section class="flex items-center justify-center h-screen">
+            {% if request.session.user == None %}
+			<section class="flex items-center justify-center mt-20">
 				<h1 class="text-5xl text-primary font-thalia">Welcome to the lustrum game!</h1>
+                <h2 class="text-4xl text-primary font-thalia">Please login to see the game</h2>
 			</section>
+            {% else %}
+            <section class="flex flex-col items-center justify-center mt-20 w-full">
+				<h1 class="text-5xl text-primary font-thalia">Your target:</h1>
+                <div class="w-1/2">
+                    <img/>
+                    <p>Username</p>
+                </div>
+			</section>
+            {% endif %}
 		</div>
 	</body>
 </html>
