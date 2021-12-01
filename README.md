@@ -19,11 +19,21 @@ A step by step list of commands / guide that informs how to install an instance 
 
 `$ pipenv shell`
 
+`$ pip install -r requirements.txt`
+
 `$ python manage.py migrate `
 
+`$ python manage.py runserver `
+
+### In a separate terminal run
+
+`$ pipenv shell`
+
+`$ python manage.py tailwind install `
+
+`$ python manage.py tailwind start `
 
 ## Deployment Notes
-Explain how to deploy your project  on a live server. To do so include step by step guide. Potentially do this for multiple platforms. 
 ```sh
 WIP
 ```
