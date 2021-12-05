@@ -18,4 +18,3 @@ class PlayerAdmin(admin.ModelAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(Player, PlayerAdmin)
 admin.site.register(Murder)
-
