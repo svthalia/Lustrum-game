@@ -22,6 +22,7 @@ class Player(models.Model):
 class Murder(models.Model):
     murderer = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='murderer')
     victim = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='victim')
+    agreed_on = models.BooleanField(default=False)
 
     def __str__(self):
         return 'Murder: {}'.format(self.murderer.user.name + " X " + self.victim.user.name)

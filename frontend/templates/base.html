@@ -16,13 +16,13 @@
         <div class="container mx-auto my-3 flex flex-col md:flex-row justify-between">
             <h3 class="text-white text-xl font-thalia self-center">Thalia lustrum game</h3>
             {% if request.session.user == None %}
-                <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md">
+                <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md transform hover:scale-110 transition ease-out">
                     <a href="/login">Login</a>
                 </button>
             {% else %}
                 <div class="flex flex-row justify-center">
                     <h3 class="text-white mr-5 text-xl font-thalia text-center self-center">Hello {{ request.session.user.name }}</h3>
-                    <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md">
+                    <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md transform hover:scale-110 transition ease-out">
                         <a href="/logout">Logout</a>
                     </button>
                 </div>
@@ -37,21 +37,46 @@
                 <h2 class="text-4xl text-primary font-thalia mt-10">Please login to see the game</h2>
 			</section>
             {% else %}
-                <div class="flex justify-center mx-5 md:mx-0">
+                <div class="flex justify-center mx-5 md:mx-0 z-0 ">
                 <section class="flex flex-col items-center justify-center md:w-2/3 lg:w-2/5 my-20 filter bg-primary drop-shadow-lg rounded-md">
                     <h1 class="text-5xl text-white font-thalia my-5">Your target:</h1>
                     <div class="mx-10">
                     <img class="rounded-md" src="{{ target_picture }}"  alt="Victim picture"/>
                     </div>
                     <p class="text-5xl text-center text-white font-thalia my-5">{{ target_name }}</p>
-                    <button class="button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out">
-                        Killed target
+                    <button id="kill_target" class="button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out">
+                        Killed target?
                     </button>
+                </section>
                 </div>
             {% endif %}
 		</div>
+        <div id="modal_confirm" class="absolute top-0 left-0 w-screen h-screen transition ease-out modal" style="visibility: hidden; opacity: 0">
+            <div class="flex w-screen h-screen justify-center">
+                <div class="flex flex-col bg-white drop-shadow-lg self-center justify-center md:w-1/3 lg:w-1/5 rounded-md">
+                    <h1 class="font-thalia text-center text-3xl my-5">Are you sure?</h1>
+                    <div class="justify-center self-center grid grid-cols-2 gap-4">
+                        <button id="modal_button_confirm" class="button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out">confirm</button>
+                        <button id="modal_button_cancel" class="button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out">cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 	</body>
 <script>
-    // JQuery open modal and on ok send modal
+
+    $("#kill_target").click((e) => {
+        $("#modal_confirm").css("visibility", "visible")
+        $("#modal_confirm").css("opacity", 1)
+    })
+
+    $("#modal_button_cancel").click((e) => {
+        $("#modal_confirm").css("visibility", "hidden")
+        $("#modal_confirm").css("opacity", 0)
+    })
+
+    $("#modal_button_confirm").click((e) => {
+        // Create kill but have accepted be none
+    })
 </script>
 </html>
