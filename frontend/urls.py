@@ -9,5 +9,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('api/kill_target', views.kill),
     path('api/kill_target/confirm', views.kill_confirm),
+    path('api/kill_target/cancel', views.kill_cancel),
 
 ]

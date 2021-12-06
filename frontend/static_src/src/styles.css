@@ -5,3 +5,15 @@
 .modal {
   transition: visibility 0.1s, opacity 0.1s linear;
 }
+
+ .loader {
+  border: 8px solid #f3f3f300; /* Light grey */
+  border-top: 8px solid #e62272; /* Blue */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

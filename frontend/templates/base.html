@@ -44,25 +44,20 @@
                     <img class="rounded-md" src="{{ target_picture }}"  alt="Victim picture"/>
                     </div>
                     <p class="text-5xl text-center text-white font-thalia my-5">{{ target_name }}</p>
-                    <button id="kill_target" class="button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out">
+                    <button id="kill_target" class="button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out" style="display: block">
                         Killed target?
                     </button>
-                </section>
-                </div>
-                {% if murder != None %}
-                    <div id="modal_kill_confirm" class="absolute top-0 left-0 w-screen h-screen transition ease-out modal bg-black bg-opacity-60" style="visibility: visible; opacity: 1">
-                        <div class="flex w-screen h-screen justify-center">
-                            <div class="flex flex-col bg-white drop-shadow-lg self-center justify-center md:w-1/3 lg:w-1/5 rounded-md">
-                                <h1 class="font-thalia text-center text-3xl my-5">{{ murder }} killed you, is this true?</h1>
-                                <p class="font-thalia text-center text-3xl my-5">If this is not correct, please contact the Lustrumcie</p>
-                                <div class="justify-center self-center grid grid-cols-2 gap-4">
-                                    <button id="modal_kill_button_confirm" class="button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out">confirm</button>
-                                    <button id="modal_kill_button_cancel" class="button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out">cancel</button>
-                                </div>
+                    <div id="waiting_on_confirmation" class="button justify-center bg-gold rounded-md p-3 text-white text-center font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out" style="display: none">
+                        <div class="flex flex-row">
+                            <div class="self-center loader w-10 h-10 mr-2"></div>
+                            <div>
+                                <p class="self-center">Waiting on confirmation</p>
+                                <p class="self-center text-lg">Want to cancel? Click here</p>
                             </div>
                         </div>
                     </div>
-                {% endif %}
+                </section>
+                </div>
             {% endif %}
 		</div>
         <div id="modal_confirm" class="absolute top-0 left-0 w-screen h-screen transition ease-out modal bg-black bg-opacity-60" style="visibility: hidden; opacity: 0">
@@ -79,41 +74,123 @@
 	</body>
 <script>
 
+    const modal = $("#modal_confirm");
+    const kill_button = $("#kill_target");
+    const waiting = $("#waiting_on_confirmation");
+    const modal_confirm = $("#modal_button_confirm");
+    const modal_cancel = $("#modal_button_cancel");
 
-    const modal_kill = $("#modal_confirm")
-    $("#kill_target").click((e) => {
-        modal_kill.css("visibility", "visible")
-        modal_kill.css("opacity", 1)
-    })
+    function reset(){
+        if({{ murder_waiting }}){
+            change_to_cancel_kill()
+            kill_button.css("display", "none");
+            waiting.css("display", "block");
+        }else{
+            change_to_kill()
+            kill_button.css("display", "block");
+            waiting.css("display", "none");
+        }
+    }
 
-    $("#modal_button_cancel").click((e) => {
-        modal_kill.css("visibility", "hidden")
-        modal_kill.css("opacity", 0)
-    })
+    kill_button.click((e) => {
+            modal.css("visibility", "visible");
+            modal.css("opacity", 1);
+    });
 
-    $("#modal_button_confirm").click((e) => {
-        $.get(window.location.origin + "/api/kill_target", function (result) {
-            console.log(result)
-            modal_kill.css("visibility", "hidden")
-            modal_kill.css("opacity", 0)
+    waiting.click((e) => {
+            modal.css("visibility", "visible");
+            modal.css("opacity", 1);
+    });
+
+    if("{{ murder_confirmation }}" === ""){
+        reset()
+    }else{
+        console.log("ACCEPT!");
+        change_to_accept_kill()
+    }
+
+    function change_to_kill() {
+        modal_cancel.unbind()
+        modal_cancel.click((e) => {
+            modal.css("visibility", "hidden");
+            modal.css("opacity", 0);
+        });
+
+        modal_confirm.unbind()
+        modal_confirm.click((e) => {
+
+            kill_button.css("display", "none");
+            waiting.css("display", "block");
+
+            $.get(window.location.origin + "/api/kill_target", function (result) {
+                console.log(result)
+                modal.css("visibility", "hidden");
+                modal.css("opacity", 0);
+
+                change_to_cancel_kill();
+            })
+        });
+    }
+
+    function change_to_accept_kill(){
+        modal.find('h1').text("{{ murder_confirmation }} has killed you")
+        modal.find('h1').parent().append("<h1 class='text-lg font-thalia text-center mb-5'>If this is wrong please contact the lustrumcie</h1>")
+
+        modal.css("visibility", "visible");
+        modal.css("opacity", 1);
+
+        modal_cancel.unbind()
+        modal_cancel.click((e) => {
+            modal.css("visibility", "hidden");
+            modal.css("opacity", 0);
+
+            modal.find('h1').first().text("Are you sure?");
+            modal.find('h1').parent().find('h1').last().remove();
+            reset();
+        });
+
+        modal_confirm.unbind()
+        modal_confirm.click((e) => {
+            $.get(window.location.origin + "/api/kill_target/confirm", function (result) {
+                console.log(result);
+                modal.css("visibility", "hidden");
+                modal.css("opacity", 0);
+
+                modal.find('h1').first().text("Are you sure?");
+                modal.find('h1').parent().find('h1').last().remove();
+
+                reset();
+            });
+
+
+            // TODO maybe cancel the request or alert the committee admins
         })
-        // TODO Change killed target to awaiting confirmation with a loading spinner with an option to cancel
-    })
+    }
 
-    const modal_kill_confirm = $("#modal_kill_confirm")
+    function change_to_cancel_kill(){
+        modal_cancel.unbind()
+        modal_cancel.click((e) => {
+            modal.css("visibility", "hidden");
+            modal.css("opacity", 0);
+        });
 
-    $("#modal_kill_button_cancel").click((e) => {
-        modal_kill_confirm.css("visibility", "hidden")
-        modal_kill_confirm.css("opacity", 0)
-    })
+        modal_confirm.unbind()
+        modal_confirm.click((e) => {
 
-    $("#modal_kill_button_confirm").click((e) => {
-        $.get(window.location.origin + "/api/kill_target/confirm", function (result) {
-            console.log(result)
-            modal_kill_confirm.css("visibility", "hidden")
-            modal_kill_confirm.css("opacity", 0)
-        })
-        // TODO maybe cancel the request or alert the committee admins
-    })
+            kill_button.css("display", "none");
+            waiting.css("display", "block");
+
+            $.get(window.location.origin + "/api/kill_target/cancel", function (result) {
+                console.log(result)
+                modal.css("visibility", "hidden");
+                modal.css("opacity", 0);
+
+                change_to_kill();
+                kill_button.css("display", "block");
+                waiting.css("display", "none");
+            })
+        });
+    }
+
 </script>
 </html>

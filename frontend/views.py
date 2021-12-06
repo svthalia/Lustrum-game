@@ -18,13 +18,20 @@ def index(request):
         if user is not None:
             try:
                 player = Player.objects.get(user=user)
-                if player.target is not None:
-                    try:
-                        murder = Murder.objects.get(victim=player, agreed_on=False)
-                        context = {'target_name': player.target.name, 'target_picture': player.target.profilePicture,
-                                   'murder': murder.murderer.user.name}
-                    except Murder.DoesNotExist:
-                        context = {'target_name': player.target.name, 'target_picture': player.target.profilePicture}
+                context['target_name'] = player.target.name
+                context['target_picture'] = player.target.profilePicture
+                try:
+                    murder_on_user = Murder.objects.get(victim=player, agreed_on=False)
+                    context['murder_confirmation'] = murder_on_user.murderer.user.name
+                except Murder.DoesNotExist:
+                    pass
+
+                try:
+                    Murder.objects.get(murderer=player, agreed_on=False)
+                    context['murder_waiting'] = "true"
+                except Murder.DoesNotExist:
+                    context['murder_waiting'] = "false"
+
             except Player.DoesNotExist:
                 pass
         else:
@@ -118,6 +125,38 @@ def kill(request):
             except Player.DoesNotExist:
                 response_data["error"] = True
                 response_data["reason"] = "Player does not exist"
+                return HttpResponse(json.dumps(response_data), content_type='application/json')
+        else:
+            request.session.pop('user', None)
+            response_data["error"] = True
+            response_data["reason"] = "Wrong auth"
+            return HttpResponse(json.dumps(response_data), content_type='application/json')
+
+    response_data["error"] = True
+    response_data["reason"] = "No authentication"
+    return HttpResponse(json.dumps(response_data), content_type='application/json')
+
+
+def kill_cancel(request):
+    response_data = {}
+
+    if 'user' in request.session:
+        user = authenticate(request, token=request.session["user"]["token"])
+        if user is not None:
+            try:
+                murderer = Player.objects.get(user=user)
+                try:
+                    murder = Murder.objects.get(murderer=murderer, agreed_on=False)
+                    murder.delete()
+                    response_data["error"] = False
+                    return HttpResponse(json.dumps(response_data), content_type='application/json')
+                except Murder.DoesNotExist:
+                    response_data["error"] = True
+                    response_data["reason"] = "No such murder"
+                    return HttpResponse(json.dumps(response_data), content_type='application/json')
+            except Player.DoesNotExist:
+                response_data["error"] = True
+                response_data["reason"] = "Victim does not exist"
                 return HttpResponse(json.dumps(response_data), content_type='application/json')
         else:
             request.session.pop('user', None)
