@@ -37,16 +37,20 @@
                 <h2 class="text-4xl text-primary font-thalia mt-10">Please login to see the game</h2>
 			</section>
             {% else %}
-                <div class="flex justify-center mx-5 md:mx-0 z-0 ">
-                <section class="flex flex-col items-center justify-center md:w-2/3 lg:w-2/5 my-20 filter bg-primary drop-shadow-lg rounded-md">
-                    <h1 class="text-5xl text-white font-thalia my-5">Your target:</h1>
-                    <div class="mx-10">
-                    <img class="rounded-md" src="{{ target_picture }}"  alt="Victim picture"/>
-                    </div>
-                    <p class="text-5xl text-center text-white font-thalia my-5">{{ target_name }}</p>
-                    <button id="kill_target" class="button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out" style="display: block">
-                        Killed target?
-                    </button>
+                <div class="grid md:grid-cols-2 grid-cols-1 md:gap-16 gap-1 justify-center z-0 mb-10">
+                    <section class="items-center justify-center md:mb-16 mb-0 mt-16 filter bg-primary drop-shadow-lg rounded-md">
+                    <h1 class="absolute text-center w-full text-5xl text-white font-thalia my-5">Your target:</h1>
+                        <div class="flex flex-col w-full h-full pt-24">
+                            <div class="w-full h-full">
+                                <div class="mx-10 aspect-w-16 aspect-h-9">
+                                    <img class="rounded-md w-full h-full object-cover" src="{{ target_picture }}"  alt="Victim picture"/>
+                                </div>
+                            </div>
+                            <p class="text-5xl text-center text-white font-thalia my-5">{{ target_name }}</p>
+                            <button id="kill_target" class="self-center button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out w-3/12" style="display: block">
+                                Killed target?
+                            </button>
+                        </div>
                     <div id="waiting_on_confirmation" class="button justify-center bg-gold rounded-md p-3 text-white text-center font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out" style="display: none">
                         <div class="flex flex-row">
                             <div class="self-center loader w-10 h-10 mr-2"></div>
@@ -56,6 +60,21 @@
                             </div>
                         </div>
                     </div>
+                </section>
+                    <section class="items-center justify-center md:mb-16 mb-0 mt-16 filter bg-primary drop-shadow-lg rounded-md">
+                        <p class="absolute text-5xl text-center text-white font-thalia mt-5 w-full">{{ user_name }}</p>
+                        <div class="flex flex-col justify-center self-center w-full h-full pt-24">
+                            <div class="w-1/2 h-1/2 self-center">
+                                <div class="mx-10 aspect-w-16 aspect-h-9">
+                                    <div class="flex justify-center">
+                                        <img class="rounded-md w-full h-full object-cover self-center" src="{{ user_profile_picture }}"  alt="Victim picture"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-4xl text-center text-white font-thalia self-center my-5">Your core: {{ user_score }}</p>
+                            <p class="text-4xl text-center text-white font-thalia self-center my-5">Your are currently Alive</p>
+
+                        </div>
                 </section>
                 </div>
             {% endif %}
@@ -160,6 +179,8 @@
                 modal.find('h1').parent().find('h1').last().remove();
 
                 reset();
+
+                document.location.reload(true);
             });
 
 

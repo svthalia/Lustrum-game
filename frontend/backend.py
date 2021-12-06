@@ -9,7 +9,6 @@ from frontend.oauth import oauth
 
 class ConcrexitBackend(BaseBackend):
     def authenticate(self, request, token=None):
-        print("Authenticate")
         try:
             resp = oauth.getOAuth().thalia.get('', token=token)
         except OAuthError:
@@ -18,11 +17,9 @@ class ConcrexitBackend(BaseBackend):
         if resp.ok:
             try:
                 user = User.objects.get(pk=newUser['pk'])
-                print(user)
 
                 # Check if user changed
                 change = False
-                print(user.name)
                 if user.name != newUser['profile']['display_name']:
                     user.name = newUser['profile']['display_name']
                     change = True

@@ -16,10 +16,13 @@ def index(request):
     if 'user' in request.session:
         user = authenticate(request, token=request.session["user"]["token"])
         if user is not None:
+            context['user_name'] = user.name
+            context['user_profile_picture'] = user.profilePicture
             try:
                 player = Player.objects.get(user=user)
                 context['target_name'] = player.target.name
                 context['target_picture'] = player.target.profilePicture
+
                 try:
                     murder_on_user = Murder.objects.get(victim=player, agreed_on=False)
                     context['murder_confirmation'] = murder_on_user.murderer.user.name
@@ -31,6 +34,8 @@ def index(request):
                     context['murder_waiting'] = "true"
                 except Murder.DoesNotExist:
                     context['murder_waiting'] = "false"
+
+                context['user_score'] = player.get_score()
 
             except Player.DoesNotExist:
                 pass

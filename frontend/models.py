@@ -18,6 +18,21 @@ class Player(models.Model):
     def __str__(self):
         return 'Player: {}'.format(self.user.name)
 
+    def get_score(self):
+        total = 0
+        try:
+            kills = Murder.objects.filter(murderer=self, agreed_on=True)
+            total += kills.count()
+        except Murder.DoesNotExist:
+            pass
+
+        try:
+            kills = Murder.objects.filter(victim=self, agreed_on=True)
+            total -= 2*kills.count()
+        except Murder.DoesNotExist:
+            pass
+
+        return total
 
 class Murder(models.Model):
     murderer = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='murderer')
