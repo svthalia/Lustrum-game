@@ -17,3 +17,9 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.pistol {
+    background-image: url(../../pistol2.png);
+    background-repeat: repeat;
+    background-repeat: round;
+}

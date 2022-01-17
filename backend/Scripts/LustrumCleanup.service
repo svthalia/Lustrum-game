@@ -1,0 +1,7 @@
+[Unit]
+Wants=lustrumTimer.timer
+Description=Cleans up the non confirmed kills at night and resets the life of users
+
+[Service]
+Type=oneshot
+ExecStart=/LUSTRUMGAMELOCATION/venv/bin/python /LUSTRUMGAMELOCATION/backend/Scripts/cleanupCrew.py

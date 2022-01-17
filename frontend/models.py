@@ -12,8 +12,8 @@ class User(models.Model):
 
 class Player(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
-    target = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, related_name='target')
-    isDead = models.BooleanField(default=False)
+    target = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, related_name='target', null=True)
+    is_dead = models.BooleanField(default=False)
 
     def __str__(self):
         return 'Player: {}'.format(self.user.name)

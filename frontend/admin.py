@@ -11,7 +11,7 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class PlayerAdmin(admin.ModelAdmin):
-    list_display = ('user', 'target', "isDead")
+    list_display = ('user', 'target', "is_dead")
     search_fields = ['user']
 
 

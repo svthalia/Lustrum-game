@@ -1,96 +1,119 @@
 {% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-    <title>Django Tailwind</title>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
-         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		{% tailwind_css %}
-	</head>
-    <nav class=" bg-gold flex">
-        <div class="container mx-auto my-3 flex flex-col md:flex-row justify-between">
-            <h3 class="text-white text-xl font-thalia self-center">Thalia lustrum game</h3>
-            {% if request.session.user == None %}
+<head>
+    <title>Lustrum gotcha game</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {% tailwind_css %}
+</head>
+<nav class=" bg-gold flex shadow shadow-lg">
+    <div class="container mx-auto my-3 flex flex-col md:flex-row justify-between">
+        <h3 class="text-white text-xl font-thalia self-center">Thalia lustrum game</h3>
+        {% if request.session.user == None %}
+            <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md transform hover:scale-110 transition ease-out">
+                <a href="/login">Login</a>
+            </button>
+        {% else %}
+            <div class="flex flex-row justify-center">
+                <h3 class="text-white mr-5 text-xl font-thalia text-center self-center">
+                    Hello {{ request.session.user.name }}</h3>
                 <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md transform hover:scale-110 transition ease-out">
-                    <a href="/login">Login</a>
+                    <a href="/logout">Logout</a>
                 </button>
-            {% else %}
-                <div class="flex flex-row justify-center">
-                    <h3 class="text-white mr-5 text-xl font-thalia text-center self-center">Hello {{ request.session.user.name }}</h3>
-                    <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md transform hover:scale-110 transition ease-out">
-                        <a href="/logout">Logout</a>
-                    </button>
-                </div>
-            {% endif  %}
-        </div>
-    </nav>
-	<body class="">
-		<div class="container mx-auto">
-            {% if request.session.user == None %}
-			<section class="flex flex-col items-center justify-center mt-20">
-				<h1 class="text-5xl text-primary font-thalia">Welcome to the lustrum game!</h1>
-                <h2 class="text-4xl text-primary font-thalia mt-10">Please login to see the game</h2>
-			</section>
-            {% else %}
-                <div class="grid md:grid-cols-2 grid-cols-1 md:gap-16 gap-1 justify-center z-0 mb-10">
-                    <section class="items-center justify-center md:mb-16 mb-0 mt-16 filter bg-primary drop-shadow-lg rounded-md">
-                    <h1 class="absolute text-center w-full text-5xl text-white font-thalia my-5">Your target:</h1>
-                        <div class="flex flex-col w-full h-full pt-24">
-                            <div class="w-full h-full">
-                                <div class="mx-10 aspect-w-16 aspect-h-9">
-                                    <img class="rounded-md w-full h-full object-cover" src="{{ target_picture }}"  alt="Victim picture"/>
-                                </div>
-                            </div>
-                            <p class="text-5xl text-center text-white font-thalia my-5">{{ target_name }}</p>
-                            <button id="kill_target" class="self-center button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out w-3/12" style="display: block">
-                                Killed target?
-                            </button>
+            </div>
+        {% endif %}
+    </div>
+</nav>
+<body class="pistol bg-gold">
+<div class="container mx-auto">
+    {% if request.session.user == None %}
+        <section class="flex flex-col items-center justify-center mt-20">
+            <h1 class="text-5xl text-primary font-thalia">Welcome to the lustrum game!</h1>
+            <h2 class="text-4xl text-primary font-thalia mt-10">Please login to see the game</h2>
+        </section>
+    {% else %}
+        <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-16 gap-1 justify-center z-0 mb-10 mx-10 lg:mx-0">
+            <section
+                    class="items-center justify-center lg:mb-16 lg-0 mt-16 filter bg-primary drop-shadow-lg rounded-md">
+                <h1 class="absolute text-center w-full text-5xl text-white font-thalia my-5">Your target:</h1>
+                <div class="flex flex-col w-full h-full pt-24">
+                    <div class="w-full h-full">
+                        <div class="mx-10 aspect-w-16 aspect-h-9 shadow shadow-lg">
+                            <img class="rounded-md w-full h-full object-cover" src="{{ target_picture }}"
+                                 alt="Victim picture"/>
                         </div>
-                    <div id="waiting_on_confirmation" class="button justify-center bg-gold rounded-md p-3 text-white text-center font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out" style="display: none">
-                        <div class="flex flex-row">
-                            <div class="self-center loader w-10 h-10 mr-2"></div>
-                            <div>
+                    </div>
+                    <p class="text-5xl text-center text-white font-thalia my-5 ">{{ target_name }}</p>
+                    <button id="kill_target"
+                            class="self-center button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out w-3/12 shadow shadow-lg"
+                            style="display: block">
+                        Killed target?
+                    </button>
+                    <div id="waiting_on_confirmation"
+                         class="self-center button justify-center bg-gold rounded-md p-3 text-white text-center font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out w-1/2"
+                         style="display: none">
+                        <div class="flex flex-row self-center justify-center">
+                            <div class="self-center loader w-10 h-10 mr-5"></div>
+                            <div class="">
                                 <p class="self-center">Waiting on confirmation</p>
                                 <p class="self-center text-lg">Want to cancel? Click here</p>
                             </div>
                         </div>
                     </div>
-                </section>
-                    <section class="items-center justify-center md:mb-16 mb-0 mt-16 filter bg-primary drop-shadow-lg rounded-md">
-                        <p class="absolute text-5xl text-center text-white font-thalia mt-5 w-full">{{ user_name }}</p>
-                        <div class="flex flex-col justify-center self-center w-full h-full pt-24">
-                            <div class="w-1/2 h-1/2 self-center">
-                                <div class="mx-10 aspect-w-16 aspect-h-9">
-                                    <div class="flex justify-center">
-                                        <img class="rounded-md w-full h-full object-cover self-center" src="{{ user_profile_picture }}"  alt="Victim picture"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="text-4xl text-center text-white font-thalia self-center my-5">Your core: {{ user_score }}</p>
-                            <p class="text-4xl text-center text-white font-thalia self-center my-5">Your are currently Alive</p>
+                </div>
 
+            </section>
+            <section
+                    class="items-center justify-center lg:mb-16 mb-0 mt-16 filter bg-primary drop-shadow-lg shadow shadow-lg rounded-md">
+                <p class="absolute text-5xl text-center text-white font-thalia mt-5 w-full">{{ user_name }}</p>
+                <div class="flex flex-col justify-center self-center w-full h-full pt-24">
+                    <div class="w-1/2 h-1/2 self-center">
+                        <div class="mx-10 aspect-w-16 aspect-h-9 shadow shadow-lg">
+                            <div class="flex justify-center shadow shadow-lg">
+                                <img class="rounded-md w-full h-full object-cover self-center"
+                                     src="{{ user_profile_picture }}" alt="Victim picture"/>
+                            </div>
                         </div>
-                </section>
-                </div>
-            {% endif %}
-		</div>
-        <div id="modal_confirm" class="absolute top-0 left-0 w-screen h-screen transition ease-out modal bg-black bg-opacity-60" style="visibility: hidden; opacity: 0">
-            <div class="flex w-screen h-screen justify-center">
-                <div class="flex flex-col bg-white drop-shadow-lg self-center justify-center md:w-1/3 lg:w-1/5 rounded-md">
-                    <h1 class="font-thalia text-center text-3xl my-5">Are you sure?</h1>
-                    <div class="justify-center self-center grid grid-cols-2 gap-4">
-                        <button id="modal_button_confirm" class="button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out">confirm</button>
-                        <button id="modal_button_cancel" class="button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out">cancel</button>
                     </div>
+                    <p class="text-4xl text-center text-white font-thalia self-center my-5">Your
+                        core: {{ user_score }}</p>
+                    {% if player_life_status %}
+                        <p class="text-4xl text-center text-white font-thalia self-center my-5">Your are currently
+                            dead</p>
+                    {% else %}
+                        <p class="text-4xl text-center text-white font-thalia self-center my-5">Your are currently
+                            alive</p>
+                    {% endif %}
                 </div>
+            </section>
+        </div>
+    {% endif %}
+</div>
+<div id="modal_confirm" class="absolute top-0 left-0 w-screen h-screen transition ease-out modal bg-black bg-opacity-60"
+     style="visibility: hidden; opacity: 0">
+    <div class="flex w-screen h-screen justify-center">
+        <div class="flex flex-col bg-white drop-shadow-lg self-center justify-center md:w-1/3 lg:w-1/5 rounded-md">
+            <h1 class="font-thalia text-center text-3xl my-5">Are you sure?</h1>
+            <div class="justify-center self-center grid grid-cols-2 gap-4">
+                <button id="modal_button_confirm"
+                        class="button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out">
+                    confirm
+                </button>
+                <button id="modal_button_cancel"
+                        class="button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out">
+                    cancel
+                </button>
             </div>
         </div>
-	</body>
+    </div>
+</div>
+</body>
 <script>
 
     const modal = $("#modal_confirm");
@@ -99,12 +122,12 @@
     const modal_confirm = $("#modal_button_confirm");
     const modal_cancel = $("#modal_button_cancel");
 
-    function reset(){
-        if({{ murder_waiting }}){
+    function reset() {
+        if ({{ murder_waiting }}) {
             change_to_cancel_kill()
             kill_button.css("display", "none");
             waiting.css("display", "block");
-        }else{
+        } else {
             change_to_kill()
             kill_button.css("display", "block");
             waiting.css("display", "none");
@@ -112,18 +135,18 @@
     }
 
     kill_button.click((e) => {
-            modal.css("visibility", "visible");
-            modal.css("opacity", 1);
+        modal.css("visibility", "visible");
+        modal.css("opacity", 1);
     });
 
     waiting.click((e) => {
-            modal.css("visibility", "visible");
-            modal.css("opacity", 1);
+        modal.css("visibility", "visible");
+        modal.css("opacity", 1);
     });
 
-    if("{{ murder_confirmation }}" === ""){
+    if ("{{ murder_confirmation }}" === "") {
         reset()
-    }else{
+    } else {
         console.log("ACCEPT!");
         change_to_accept_kill()
     }
@@ -151,7 +174,7 @@
         });
     }
 
-    function change_to_accept_kill(){
+    function change_to_accept_kill() {
         modal.find('h1').text("{{ murder_confirmation }} has killed you")
         modal.find('h1').parent().append("<h1 class='text-lg font-thalia text-center mb-5'>If this is wrong please contact the lustrumcie</h1>")
 
@@ -188,7 +211,7 @@
         })
     }
 
-    function change_to_cancel_kill(){
+    function change_to_cancel_kill() {
         modal_cancel.unbind()
         modal_cancel.click((e) => {
             modal.css("visibility", "hidden");

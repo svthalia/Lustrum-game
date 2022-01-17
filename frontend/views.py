@@ -22,13 +22,12 @@ def index(request):
                 player = Player.objects.get(user=user)
                 context['target_name'] = player.target.name
                 context['target_picture'] = player.target.profilePicture
-
+                context['player_life_status'] = player.is_dead
                 try:
                     murder_on_user = Murder.objects.get(victim=player, agreed_on=False)
                     context['murder_confirmation'] = murder_on_user.murderer.user.name
                 except Murder.DoesNotExist:
                     pass
-
                 try:
                     Murder.objects.get(murderer=player, agreed_on=False)
                     context['murder_waiting'] = "true"
@@ -36,12 +35,10 @@ def index(request):
                     context['murder_waiting'] = "false"
 
                 context['user_score'] = player.get_score()
-
             except Player.DoesNotExist:
                 pass
         else:
             request.session.pop('user', None)
-
     return render(request, 'base.html', context)
 
 
@@ -73,15 +70,24 @@ def kill_confirm(request):
         user = authenticate(request, token=request.session["user"]["token"])
         if user is not None:
             try:
-                target = Player.objects.get(user=user)
-                if target is not None:
+                target_player = Player.objects.get(user=user)
+                if target_player is not None:
                     try:
-                        murder = Murder.objects.get(victim=target, agreed_on=False)
+                        murder = Murder.objects.get(victim=target_player, agreed_on=False)
                         murder.agreed_on = True
                         murder.save()
-                        response_data["error"] = False
-                        return HttpResponse(json.dumps(response_data), content_type='application/json')
-
+                        target_player.is_dead = True
+                        target_player.save()
+                        try:
+                            killer_player = Player.objects.get(user=murder.murderer.user)
+                            killer_player.target = target_player.target
+                            killer_player.save()
+                            response_data["error"] = False
+                            return HttpResponse(json.dumps(response_data), content_type='application/json')
+                        except Player.DoesNotExist:
+                            response_data["error"] = True
+                            response_data["reason"] = "No new target"
+                            return HttpResponse(json.dumps(response_data), content_type='application/json')
                     except Murder.DoesNotExist:
                         response_data["error"] = True
                         response_data["reason"] = "No such murder"
