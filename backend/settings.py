@@ -10,6 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+dotenv_path = Path('../.env')
+
+load_dotenv(dotenv_path=dotenv_path)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent
@@ -84,9 +90,9 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'lustrum_game',
-        'USER': 'lustrum_game_admin',
-        'PASSWORD': 'xD@M?@zaZra9Jgy$',
+        'NAME': os.getenv('DB'),
+        'USER': os.getenv('DBUSERNAME'),
+        'PASSWORD': os.getenv('DBPASSWORD'),
         'HOST': 'localhost',
         'PORT': '',
     }

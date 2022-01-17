@@ -27,6 +27,7 @@ django-livereload-server==0.3.2
 django-oauth-toolkit==1.5.0
 django-tailwind==2.2.2
 django-timezone-field==4.2.1
+environ==1.0
 filelock==3.4.0
 idna==3.3
 Jinja2==3.0.3
