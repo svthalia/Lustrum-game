@@ -14,16 +14,16 @@
 </head>
 <nav class=" bg-gold flex shadow shadow-lg">
     <div class="container mx-auto my-3 flex flex-col md:flex-row justify-between">
-        <h3 class="text-white text-xl font-thalia self-center">Thalia lustrum game</h3>
+        <h3 class="text-white text-xl font-thalia text-center self-center md:mt-0 mt-2">Thalia lustrum game</h3>
         {% if request.session.user == None %}
-            <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md transform hover:scale-110 transition ease-out">
+            <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md transform hover:scale-110 transition ease-out self-center w-auto md:mt-0 mt-2">
                 <a href="/login">Login</a>
             </button>
         {% else %}
-            <div class="flex flex-row justify-center">
-                <h3 class="text-white mr-5 text-xl font-thalia text-center self-center">
+            <div class="flex md:flex-row flex-col justify-center">
+                <h3 class="text-white mr-5 text-xl font-thalia text-center self-center md:mt-0 mt-2">
                     Hello {{ request.session.user.name }}</h3>
-                <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md transform hover:scale-110 transition ease-out">
+                <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md transform hover:scale-110 transition ease-out self-center w-auto md:mt-0 mt-2">
                     <a href="/logout">Logout</a>
                 </button>
             </div>
@@ -40,48 +40,68 @@
     {% else %}
         <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-16 gap-1 justify-center z-0 mb-10 mx-10 lg:mx-0">
             <section
-                    class="items-center justify-center lg:mb-16 lg-0 mt-16 filter bg-primary drop-shadow-lg rounded-md">
+                    class="items-center justify-center lg:mb-16 lg-0 mt-16 filter bg-primary drop-shadow-lg rounded-md {{ player_grey }}">
                 <h1 class="absolute text-center w-full text-5xl text-white font-thalia my-5">Your target:</h1>
                 <div class="flex flex-col w-full h-full pt-24">
-                    <div class="w-full h-full">
-                        <div class="mx-10 aspect-w-16 aspect-h-9 shadow shadow-lg">
-                            <img class="rounded-md w-full h-full object-cover" src="{{ target_picture }}"
-                                 alt="Victim picture"/>
+                    {% if finished %}
+                        <div class="h-full w-full flex justify-center">
+                            <h2 class="text-white text-center self-center mx-12 mb-10 text-4xl font-thalia">Congrats you
+                                are the only one standing! <br><br> But don't be too excited, everyone will be revived the next
+                                day. </h2>
                         </div>
-                    </div>
-                    <p class="text-5xl text-center text-white font-thalia my-5 ">{{ target_name }}</p>
-                    <button id="kill_target"
-                            class="self-center button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out w-3/12 shadow shadow-lg"
-                            style="display: block">
-                        Killed target?
-                    </button>
-                    <div id="waiting_on_confirmation"
-                         class="self-center button justify-center bg-gold rounded-md p-3 text-white text-center font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out w-1/2"
-                         style="display: none">
-                        <div class="flex flex-row self-center justify-center">
-                            <div class="self-center loader w-10 h-10 mr-5"></div>
-                            <div class="">
-                                <p class="self-center">Waiting on confirmation</p>
-                                <p class="self-center text-lg">Want to cancel? Click here</p>
+                    {% elif not target_name %}
+                        <div class="h-full w-full flex justify-center">
+                            <h2 class="text-white text-center self-center mx-12 mb-10 text-4xl font-thalia">You don't
+                                have a target now, if you see this once the game has begun please contact the
+                                Lustrumcie</h2>
+                        </div>
+                    {% elif player_life_status %}
+                        <div class="h-full w-full flex justify-center">
+                            <h2 class="text-white text-center self-center mx-12 mb-10 text-4xl font-thalia">You are now
+                                dead.
+                                <br><br> But don't worry! You will be revived by the next day. If you think this is
+                                mistake please contact the
+                                Lustrumcie</h2>
+                        </div>
+                    {% else %}
+                        <div class="w-full h-full">
+                            <div class="mx-10 aspect-w-16 aspect-h-9 shadow shadow-lg">
+                                <img class="rounded-md w-full h-full object-cover" src="{{ target_picture }}"
+                                     alt="Victim picture"/>
                             </div>
                         </div>
-                    </div>
+                        <p class="text-5xl text-center text-white font-thalia my-5 ">{{ target_name }}</p>
+                        <button id="kill_target"
+                                class="self-center button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out w-3/12 shadow shadow-lg"
+                                style="display: block">
+                            Killed target?
+                        </button>
+                        <div id="waiting_on_confirmation"
+                             class="self-center button justify-center bg-gold rounded-md p-3 text-white text-center font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out w-1/2"
+                             style="display: none">
+                            <div class="flex flex-row self-center justify-center">
+                                <div class="self-center loader w-10 h-10 mr-5"></div>
+                                <div class="">
+                                    <p class="self-center">Waiting on confirmation</p>
+                                    <p class="self-center text-lg">Want to cancel? Click here</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             </section>
             <section
-                    class="items-center justify-center lg:mb-16 mb-0 mt-16 filter bg-primary drop-shadow-lg shadow shadow-lg rounded-md">
+                    class="items-center justify-center lg:mb-16 mb-0 mt-16 filter bg-primary drop-shadow-lg shadow shadow-lg rounded-md {{ player_grey }}">
                 <p class="absolute text-5xl text-center text-white font-thalia mt-5 w-full">{{ user_name }}</p>
                 <div class="flex flex-col justify-center self-center w-full h-full pt-24">
-                    <div class="w-1/2 h-1/2 self-center">
+                    <div class="w-full h-full">
                         <div class="mx-10 aspect-w-16 aspect-h-9 shadow shadow-lg">
-                            <div class="flex justify-center shadow shadow-lg">
-                                <img class="rounded-md w-full h-full object-cover self-center"
-                                     src="{{ user_profile_picture }}" alt="Victim picture"/>
-                            </div>
+                            <img class="rounded-md w-full h-full object-cover"
+                                 src="{{ user_profile_picture }}" alt="Victim picture"/>
                         </div>
                     </div>
                     <p class="text-4xl text-center text-white font-thalia self-center my-5">Your
-                        core: {{ user_score }}</p>
+                        score: {{ user_score }}</p>
                     {% if player_life_status %}
                         <p class="text-4xl text-center text-white font-thalia self-center my-5">Your are currently
                             dead</p>
@@ -112,6 +132,8 @@
         </div>
     </div>
 </div>
+{#this is only here to trick tailwind that we have a grayscale class#}
+<div class="grayscale"></div>
 </body>
 <script>
 
@@ -201,12 +223,8 @@
                 modal.find('h1').parent().find('h1').last().remove();
 
                 reset();
-
-                document.location.reload(true);
             });
 
-
-            // TODO maybe cancel the request or alert the committee admins
         })
     }
 

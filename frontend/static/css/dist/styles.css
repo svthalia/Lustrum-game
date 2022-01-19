@@ -725,14 +725,19 @@ select {
   margin-bottom: 0.75rem;
 }
 
+.mx-10 {
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+}
+
 .my-5 {
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
 }
 
-.mx-10 {
-  margin-left: 2.5rem;
-  margin-right: 2.5rem;
+.mx-12 {
+  margin-left: 3rem;
+  margin-right: 3rem;
 }
 
 .mr-5 {
@@ -751,10 +756,6 @@ select {
   margin-bottom: 2.5rem;
 }
 
-.mb-0 {
-  margin-bottom: 0px;
-}
-
 .mt-16 {
   margin-top: 4rem;
 }
@@ -763,12 +764,16 @@ select {
   margin-bottom: 1.25rem;
 }
 
-.mr-2 {
-  margin-right: 0.5rem;
+.mb-0 {
+  margin-bottom: 0px;
 }
 
 .mt-5 {
   margin-top: 1.25rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
 }
 
 .block {
@@ -803,10 +808,6 @@ select {
   height: 2.5rem;
 }
 
-.h-1\/2 {
-  height: 50%;
-}
-
 .h-screen {
   height: 100vh;
 }
@@ -819,20 +820,20 @@ select {
   width: 25%;
 }
 
-.w-10 {
-  width: 2.5rem;
-}
-
 .w-1\/2 {
   width: 50%;
+}
+
+.w-10 {
+  width: 2.5rem;
 }
 
 .w-screen {
   width: 100vw;
 }
 
-.w-3\/4 {
-  width: 75%;
+.w-auto {
+  width: auto;
 }
 
 .border-collapse {
@@ -939,11 +940,6 @@ select {
   padding-bottom: 0.25rem;
 }
 
-.px-10 {
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
-}
-
 .pt-24 {
   padding-top: 6rem;
 }
@@ -1026,6 +1022,11 @@ select {
   filter: var(--tw-filter);
 }
 
+.grayscale {
+  --tw-grayscale: grayscale(100%);
+  filter: var(--tw-filter);
+}
+
 .filter {
   filter: var(--tw-filter);
 }
@@ -1093,44 +1094,46 @@ select {
 }
 
 @media (min-width: 640px) {
-  .sm\:mx-10 {
-    margin-left: 2.5rem;
-    margin-right: 2.5rem;
+  .sm\:w-full {
+    width: 100%;
   }
 
-  .sm\:grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .sm\:w-0 {
+    width: 0px;
+  }
+
+  .sm\:w-1\/2 {
+    width: 50%;
+  }
+
+  .sm\:w-auto {
+    width: auto;
+  }
+
+  .sm\:flex-row {
+    flex-direction: row;
   }
 }
 
 @media (min-width: 768px) {
-  .md\:mb-16 {
-    margin-bottom: 4rem;
+  .md\:mt-0 {
+    margin-top: 0px;
   }
 
   .md\:w-1\/3 {
     width: 33.333333%;
   }
 
-  .md\:grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .md\:w-auto {
+    width: auto;
   }
 
   .md\:flex-row {
     flex-direction: row;
   }
-
-  .md\:gap-16 {
-    gap: 4rem;
-  }
 }
 
 @media (min-width: 1024px) {
-  .lg\:mx-10 {
-    margin-left: 2.5rem;
-    margin-right: 2.5rem;
-  }
-
   .lg\:mx-0 {
     margin-left: 0px;
     margin-right: 0px;
@@ -1142,6 +1145,10 @@ select {
 
   .lg\:w-1\/5 {
     width: 20%;
+  }
+
+  .lg\:w-auto {
+    width: auto;
   }
 
   .lg\:grid-cols-2 {

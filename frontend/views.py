@@ -20,9 +20,15 @@ def index(request):
             context['user_profile_picture'] = user.profilePicture
             try:
                 player = Player.objects.get(user=user)
-                context['target_name'] = player.target.name
-                context['target_picture'] = player.target.profilePicture
+                try:
+                    context['target_name'] = player.target.name
+                    context['target_picture'] = player.target.profilePicture
+                    context['finished'] = player.target == player.user
+                except AttributeError:
+                    context['target_name'] = False
+                    context['target_picture'] = False
                 context['player_life_status'] = player.is_dead
+                context['player_grey'] = "grayscale" if player.is_dead else ""
                 try:
                     murder_on_user = Murder.objects.get(victim=player, agreed_on=False)
                     context['murder_confirmation'] = murder_on_user.murderer.user.name
@@ -33,7 +39,6 @@ def index(request):
                     context['murder_waiting'] = "true"
                 except Murder.DoesNotExist:
                     context['murder_waiting'] = "false"
-
                 context['user_score'] = player.get_score()
             except Player.DoesNotExist:
                 pass
@@ -117,7 +122,7 @@ def kill(request):
                 player = Player.objects.get(user=user)
                 if player.target is not None:
                     target = Player.objects.get(user=player.target)
-                    if target is not None:
+                    if target is not None and not player.is_dead:
                         try:
                             Murder.objects.get(murderer=player, victim=target, agreed_on=False)
                             response_data["error"] = True
