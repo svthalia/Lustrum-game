@@ -13,7 +13,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 
-dotenv_path = Path('../.env')
+dotenv_path = Path('.env')
 
 load_dotenv(dotenv_path=dotenv_path)
 
@@ -28,12 +28,14 @@ BASE_DIR = Path(__file__).resolve().parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+s=168nr6-h33q$q(_5=7jz2$x!-93cx*%+7%ox_1r%1)w*&uf'
+SECRET_KEY = 'h1&ha$+m6&3*mx_svp&h$4@qf*zchia(fk$-d6qg8n!s3a@9!p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'lustrum.vdhorst.dev']
+
+JULIAN = os.getenv('J')
 
 TAILWIND_APP_NAME = 'frontend'
 
@@ -139,11 +141,18 @@ INTERNAL_IPS = [
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = '/var/www/Lustrum-game/frontend/static'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 10
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
 AUTHENTICATION_BACKENDS = ['frontend.backend.ConcrexitBackend', 'django.contrib.auth.backends.ModelBackend']

@@ -40,7 +40,7 @@ def index(request):
                 except Murder.DoesNotExist:
                     context['murder_waiting'] = "false"
                 context['user_score'] = player.get_score()
-            except Player.DoesNotExist:
+            except (Player.DoesNotExist, AttributeError):
                 pass
         else:
             request.session.pop('user', None)
