@@ -30,34 +30,34 @@
         {% endif %}
     </div>
 </nav>
-<body class="pistol bg-gold">
+<body class="pistol bg-gold h-full">
 <div class="container mx-auto">
     {% if request.session.user == None %}
         <section class="flex flex-col items-center justify-center mt-20">
-            <h1 class="text-5xl text-primary font-thalia">Welcome to the lustrum game!</h1>
-            <h2 class="text-4xl text-primary font-thalia mt-10">Please login to see the game</h2>
+            <h1 class="text-5xl text-primary font-thalia text-center">Welcome to the lustrum game!</h1>
+            <h2 class="text-4xl text-primary font-thalia mt-10 text-center">Please login to see the game</h2>
         </section>
     {% else %}
         <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-16 gap-1 justify-center z-0 mb-10 mx-10 lg:mx-0">
             <section
                     class="items-center justify-center lg:mb-16 lg-0 mt-16 filter bg-primary drop-shadow-lg rounded-md {{ player_grey }}">
-                <h1 class="absolute text-center w-full text-5xl text-white font-thalia my-5">Your target:</h1>
+                <h1 class="absolute text-center w-full text-3xl lg:text-4xl xl:text-5xl text-white font-thalia my-5">Your target:</h1>
                 <div class="flex flex-col w-full h-full pt-24">
                     {% if finished %}
                         <div class="h-full w-full flex justify-center">
-                            <h2 class="text-white text-center self-center mx-12 mb-10 text-4xl font-thalia">Congrats you
+                            <h2 class="text-white text-center self-center mx-12 mb-10 text-3xl lg:text-4xl font-thalia">Congrats you
                                 are the only one standing! <br><br> But don't be too excited, everyone will be revived the next
                                 day. </h2>
                         </div>
                     {% elif not target_name %}
                         <div class="h-full w-full flex justify-center">
-                            <h2 class="text-white text-center self-center mx-12 mb-10 text-4xl font-thalia">You don't
+                            <h2 class="text-white text-center self-center mx-12 mb-10 text-3xl lg:text-4xl font-thalia">You don't
                                 have a target now, if you see this once the game has begun please contact the
                                 Lustrumcie</h2>
                         </div>
                     {% elif player_life_status %}
                         <div class="h-full w-full flex justify-center">
-                            <h2 class="text-white text-center self-center mx-12 mb-10 text-4xl font-thalia">You are now
+                            <h2 class="text-white text-center self-center mx-12 mb-10 text-3xl lg:text-4xl font-thalia">You are now
                                 dead.
                                 <br><br> But don't worry! You will be revived by the next day. If you think this is
                                 mistake please contact the
@@ -70,20 +70,20 @@
                                      alt="Victim picture"/>
                             </div>
                         </div>
-                        <p class="text-5xl text-center text-white font-thalia my-5 ">{{ target_name }}</p>
+                        <p class="text-3xl lg:text-4xl xl:text-5xl text-center text-white font-thalia my-5 ">{{ target_name }}</p>
                         <button id="kill_target"
-                                class="self-center button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out w-3/12 shadow shadow-lg"
+                                class="self-center button bg-gold rounded-md p-3 text-white font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out w-5/12 lg:w-3/12 shadow shadow-lg"
                                 style="display: block">
                             Killed target?
                         </button>
                         <div id="waiting_on_confirmation"
-                             class="self-center button justify-center bg-gold rounded-md p-3 text-white text-center font-thalia text-2xl mb-5 transform hover:scale-110 transition ease-out w-1/2"
+                             class="self-center button justify-center bg-gold rounded-md p-3 text-white text-center font-thalia text-lg md:text-2xl mb-5 transform hover:scale-110 transition ease-out w-10/12 md:w-1/2"
                              style="display: none">
                             <div class="flex flex-row self-center justify-center">
                                 <div class="self-center loader w-10 h-10 mr-5"></div>
                                 <div class="">
                                     <p class="self-center">Waiting on confirmation</p>
-                                    <p class="self-center text-lg">Want to cancel? Click here</p>
+                                    <p class="self-center text-sm md:text-lg">Want to cancel? Click here</p>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
             </section>
             <section
                     class="items-center justify-center lg:mb-16 mb-0 mt-16 filter bg-primary drop-shadow-lg shadow shadow-lg rounded-md {{ player_grey }}">
-                <p class="absolute text-5xl text-center text-white font-thalia mt-5 w-full">{{ user_name }}</p>
+                <p class="absolute text-3xl lg:text-4xl xl:text-5xl text-center text-white font-thalia mt-5 w-full">{{ user_name }}</p>
                 <div class="flex flex-col justify-center self-center w-full h-full pt-24">
                     <div class="w-full h-full">
                         <div class="mx-10 aspect-w-16 aspect-h-9 shadow shadow-lg">
@@ -100,13 +100,13 @@
                                  src="{{ user_profile_picture }}" alt="Victim picture"/>
                         </div>
                     </div>
-                    <p class="text-4xl text-center text-white font-thalia self-center my-5">Your
+                    <p class="text-3xl lg:text-4xl text-center text-white font-thalia self-center m-5">Your
                         score: {{ user_score }}</p>
                     {% if player_life_status %}
-                        <p class="text-4xl text-center text-white font-thalia self-center my-5">Your are currently
+                        <p class="text-3xl lg:text-4xl text-center text-white font-thalia self-center m-5">Your are currently
                             dead</p>
                     {% else %}
-                        <p class="text-4xl text-center text-white font-thalia self-center my-5">Your are currently
+                        <p class="text-3xl lg:text-4xl text-center text-white font-thalia self-center m-5">Your are currently
                             alive</p>
                     {% endif %}
                 </div>
@@ -114,10 +114,10 @@
         </div>
     {% endif %}
 </div>
-<div id="modal_confirm" class="absolute top-0 left-0 w-screen h-screen transition ease-out modal bg-black bg-opacity-60"
+<div id="modal_confirm" class="fixed top-0 left-0 z-20 w-full h-full transition ease-out modal bg-black bg-opacity-60"
      style="visibility: hidden; opacity: 0">
-    <div class="flex w-screen h-screen justify-center">
-        <div class="flex flex-col bg-white drop-shadow-lg self-center justify-center md:w-1/3 lg:w-1/5 rounded-md">
+    <div class="flex w-full h-full justify-center">
+        <div class="flex flex-col bg-white drop-shadow-lg self-center justify-center w-2/3 md:w-1/3 lg:w-1/5 rounded-md">
             <h1 class="font-thalia text-center text-3xl my-5">Are you sure?</h1>
             <div class="justify-center self-center grid grid-cols-2 gap-4">
                 <button id="modal_button_confirm"
@@ -168,7 +168,6 @@
     if ("{{ murder_confirmation }}" === "") {
         reset()
     } else {
-        console.log("ACCEPT!");
         change_to_accept_kill()
     }
 
@@ -242,7 +241,6 @@
             waiting.css("display", "block");
 
             $.get(window.location.origin + "/api/kill_target/cancel", function (result) {
-                console.log(result)
                 modal.css("visibility", "hidden");
                 modal.css("opacity", 0);
 
