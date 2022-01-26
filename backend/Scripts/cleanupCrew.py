@@ -5,7 +5,7 @@ import psycopg2
 import os
 import random
 
-dotenv_path = Path('../../.env')
+dotenv_path = Path('/var/www/Lustrum-game/.env')
 
 load_dotenv(dotenv_path=dotenv_path)
 
