@@ -10,12 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 from pathlib import Path
-from dotenv import load_dotenv
 import os
 
-dotenv_path = Path('.env')
-
-load_dotenv(dotenv_path=dotenv_path)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent
@@ -33,7 +29,7 @@ SECRET_KEY = 'h1&ha$+m6&3*mx_svp&h$4@qf*zchia(fk$-d6qg8n!s3a@9!p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'lustrum.vdhorst.dev']
+ALLOWED_HOSTS = ['127.0.0.1', 'lustrum.vdhorst.dev', 'localhost']
 
 JULIAN = os.getenv('J')
 
@@ -82,7 +78,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 
 # Database
@@ -92,11 +88,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('DB'),
-        'USER': os.getenv('DBUSERNAME'),
-        'PASSWORD': os.getenv('DBPASSWORD'),
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': os.environ['DB'],
+        'USER': os.environ['DBUSERNAME'],
+        'PASSWORD': os.environ['DBPASSWORD'],
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 
@@ -148,11 +144,11 @@ STATIC_ROOT = '/var/www/Lustrum-game/frontend/static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 10
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
+# SECURE_SSL_REDIRECT = True
+# SECURE_HSTS_SECONDS = 10
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
 
 AUTHENTICATION_BACKENDS = ['frontend.backend.ConcrexitBackend', 'django.contrib.auth.backends.ModelBackend']

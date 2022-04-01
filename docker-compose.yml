@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 'xD@M?@zaZra9Jgy'
+      POSTGRES_USER: lustrum_game_admin
+      POSTGRES_DB: lustrum_game_prod
+      PGPASSWORD: 'xD@M?@zaZra9Jgy'
+      PGDATA: '/var/lib/postgresql/data/pgdata'
+    volumes:
+      - "./postgres-data:/var/lib/postgresql/data"
+      - "./init-db/:/docker-entrypoint-initdb.d/"
+
+  web:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      CLIENT_ID: sghaDunsIVd34e4J3eh9gXPukr8wWDCMOshU1qRj
+      DBUSERNAME: lustrum_game_admin
+      DBPASSWORD: 'xD@M?@zaZra9Jgy'
+      DB: lustrum_game_prod
+    depends_on:
+      - db
+
+  cronjob:
+    build: ./backend/Scripts
+    restart: always
+    links:
+      - "db:database"
+    environment:
+      DBUSERNAME: lustrum_game_admin
+      DBPASSWORD: 'xD@M?@zaZra9Jgy'
+      DB: lustrum_game_prod

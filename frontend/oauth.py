@@ -11,11 +11,11 @@ class Oauth:
         self.oauth.register(
             name="thalia",
             client_id=os.environ.get('CLIENT_ID'),
-            access_token_url='https://staging.thalia.nu/user/oauth/token/',
+            access_token_url='https://thalia.nu/user/oauth/token/',
             access_token_params=None,
             refresh_token_url=None,
-            authorize_url='https://staging.thalia.nu/user/oauth/authorize',
-            api_base_url='https://staging.thalia.nu/api/v2/members/me/',
+            authorize_url='https://thalia.nu/user/oauth/authorize',
+            api_base_url='https://thalia.nu/api/v2/members/me/',
             client_kwargs={'scope': "profile:read", 'grant_type': "authorization_code"}
         )
 

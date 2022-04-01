@@ -34,8 +34,22 @@ A step by step list of commands / guide that informs how to install an instance 
 `$ python manage.py tailwind start `
 
 ## Deployment Notes
+
+For Docker
 ```sh
-WIP
+docker compose build
+```
+
+```sh
+docker compose up
+```
+
+```sh
+docker-compose run web python3 manage.py migrate
+```
+
+```sh
+docker-compose run web python3 manage.py tailwind build
 ```
 
 ## Authors 

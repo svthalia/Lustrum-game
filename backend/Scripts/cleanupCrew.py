@@ -1,24 +1,18 @@
-from pathlib import Path
-from dotenv import load_dotenv
-from datetime import datetime
 import psycopg2
 import os
 import random
 
-dotenv_path = Path('/var/www/Lustrum-game/.env')
-
-load_dotenv(dotenv_path=dotenv_path)
 
 connection = False
 
 random.seed()
 
 try:
-    connection = psycopg2.connect(user=os.getenv('DBUSERNAME'),
-                                  password=os.getenv('DBPASSWORD'),
+    connection = psycopg2.connect(user=os.environ['DBUSERNAME'],
+                                  password=os.environ['DBPASSWORD'],
                                   host="127.0.0.1",
                                   port="5432",
-                                  database=os.getenv('DB'))
+                                  database=os.environ['DB'])
 
     print("PostgreSQL connection is open")
 
