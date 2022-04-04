@@ -16,12 +16,12 @@
     <div class="container mx-auto my-3 flex flex-col md:flex-row justify-between">
         <h3 class="text-white text-xl font-thalia text-center self-center md:mt-0 mt-2">Thalia lustrum game</h3>
         {% if request.session.user == None %}
-            <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md transform hover:scale-110 transition ease-out self-center w-auto md:mr-5 mr-0 md:mt-0 mt-2">
+            <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md transform hover:scale-110 transition ease-out self-center w-auto md:mt-0 mt-2">
                 <a href="/login">Login</a>
             </button>
         {% else %}
             <div class="flex md:flex-row flex-col justify-center">
-                <h3 class="text-white text-xl font-thalia text-center self-center md:mt-0 mt-2">
+                <h3 class="text-white text-xl font-thalia text-center self-center md:mr-5 mr-0 md:mt-0 mt-2">
                     Hello {{ request.session.user.name }}</h3>
                 <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md transform hover:scale-110 transition ease-out self-center w-auto md:mt-0 mt-2">
                     <a href="/logout">Logout</a>
