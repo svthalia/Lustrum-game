@@ -160,9 +160,9 @@ def kill_cancel(request):
         user = authenticate(request, token=request.session["user"]["token"])
         if user is not None:
             try:
-                murderer = Player.objects.get(user=user)
+                victim = Player.objects.get(user=user)
                 try:
-                    murder = Murder.objects.get(victim=murderer, agreed_on=False)
+                    murder = Murder.objects.get(victim=victim, agreed_on=False)
                     murder.delete()
                     response_data["error"] = False
                     return HttpResponse(json.dumps(response_data), content_type='application/json')
