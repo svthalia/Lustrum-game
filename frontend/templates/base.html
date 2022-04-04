@@ -192,7 +192,6 @@
             waiting.css("display", "block");
 
             $.get(window.location.origin + "/api/kill_target", function (result) {
-                console.log(result)
                 modal.css("visibility", "hidden");
                 modal.css("opacity", 0);
 
@@ -210,38 +209,43 @@
 
         modal_cancel.unbind()
         modal_cancel.click((e) => {
-            modal.css("visibility", "hidden");
-            modal.css("opacity", 0);
-
             modal.find('h1').first().text("Are you sure?");
             modal.find('h1').parent().find('h1').last().remove();
-            reset();
+            change_to_cancel_kill();
         });
 
         modal_confirm.unbind()
         modal_confirm.click((e) => {
-            $.get(window.location.origin + "/api/kill_target/confirm", function (result) {
-                console.log(result);
-                modal.css("visibility", "hidden");
-                modal.css("opacity", 0);
+            modal.find('h1').first().text("Are you sure?");
+            modal.find('h1').parent().find('h1').last().remove();
 
-                modal.find('h1').first().text("Are you sure?");
-                modal.find('h1').parent().find('h1').last().remove();
+            modal_confirm.unbind()
+            modal_confirm.click((e) => {
+                $.get(window.location.origin + "/api/kill_target/confirm", function (result) {
+                    modal.css("visibility", "hidden");
+                    modal.css("opacity", 0);
 
-                reset();
+
+                    reset();
+                });
             });
 
+            modal_cancel.unbind()
+            modal_cancel.click((e) => {
+                reset();
+               change_to_accept_kill();
+            });
         })
     }
 
     function change_to_cancel_kill() {
-        modal_cancel.unbind()
+        modal_cancel.unbind();
         modal_cancel.click((e) => {
             modal.css("visibility", "hidden");
             modal.css("opacity", 0);
         });
 
-        modal_confirm.unbind()
+        modal_confirm.unbind();
         modal_confirm.click((e) => {
 
             kill_button.css("display", "none");
