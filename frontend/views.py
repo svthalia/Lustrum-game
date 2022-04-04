@@ -162,7 +162,7 @@ def kill_cancel(request):
             try:
                 murderer = Player.objects.get(user=user)
                 try:
-                    murder = Murder.objects.get(murderer=murderer, agreed_on=False)
+                    murder = Murder.objects.get(victim=murderer, agreed_on=False)
                     murder.delete()
                     response_data["error"] = False
                     return HttpResponse(json.dumps(response_data), content_type='application/json')
