@@ -107,11 +107,11 @@
                         <p class="text-3xl lg:text-4xl text-center text-white font-thalia self-center m-5">Your
                             score {{ user_score }}</p>
                         {% if player_life_status %}
-                            <p class="text-3xl lg:text-4xl text-center text-white font-thalia self-center m-5">Your are
+                            <p class="text-3xl lg:text-4xl text-center text-white font-thalia self-center m-5">You are
                                 currently
                                 dead</p>
                         {% else %}
-                            <p class="text-3xl lg:text-4xl text-center text-white font-thalia self-center m-5">Your are
+                            <p class="text-3xl lg:text-4xl text-center text-white font-thalia self-center m-5">You are
                                 currently
                                 alive</p>
                         {% endif %}
@@ -201,7 +201,7 @@
     }
 
     function change_to_accept_kill() {
-        modal.find('h1').text("{{ murder_confirmation }} has killed you")
+        modal.find('h1').html("{{ murder_confirmation }} has killed you")
         modal.find('h1').parent().append("<h1 class='text-lg font-thalia text-center mb-5'>If this is wrong please contact the lustrumcie</h1>")
 
         modal.css("visibility", "visible");
