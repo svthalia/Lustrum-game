@@ -30,7 +30,7 @@ def index(request):
                 context['player_life_status'] = player.is_dead
                 context['player_grey'] = "grayscale" if player.is_dead else ""
                 try:
-                    murder_on_user = Murder.objects.get(victim=player, agreed_on=False)
+                    murder_on_user = Murder.objects.filter(victim=player, agreed_on=False).first()
                     context['murder_confirmation'] = murder_on_user.murderer.user.name
                 except Murder.DoesNotExist:
                     pass
