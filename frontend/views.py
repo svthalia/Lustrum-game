@@ -78,7 +78,7 @@ def kill_confirm(request):
                 target_player = Player.objects.get(user=user)
                 if target_player is not None:
                     try:
-                        murder = Murder.objects.get(victim=target_player, agreed_on=False)
+                        murder = Murder.objects.filter(victim=target_player, agreed_on=False).first()
                         murder.agreed_on = True
                         murder.save()
                         target_player.is_dead = True
@@ -162,7 +162,7 @@ def kill_cancel(request):
             try:
                 victim = Player.objects.get(user=user)
                 try:
-                    murder = Murder.objects.get(victim=victim, agreed_on=False)
+                    murder = Murder.objects.filter(victim=victim, agreed_on=False).first()
                     murder.delete()
                     response_data["error"] = False
                     return HttpResponse(json.dumps(response_data), content_type='application/json')
