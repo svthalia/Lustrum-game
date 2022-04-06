@@ -35,7 +35,7 @@ def index(request):
                 except Murder.DoesNotExist:
                     pass
                 try:
-                    Murder.objects.get(murderer=player, agreed_on=False)
+                    Murder.objects.filter(murderer=player, agreed_on=False).first()
                     context['murder_waiting'] = "true"
                 except Murder.DoesNotExist:
                     context['murder_waiting'] = "false"
