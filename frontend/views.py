@@ -27,18 +27,21 @@ def index(request):
                 except AttributeError:
                     context['target_name'] = False
                     context['target_picture'] = False
+                    pass
                 context['player_life_status'] = player.is_dead
                 context['player_grey'] = "grayscale" if player.is_dead else ""
-                try:
-                    murder_on_user = Murder.objects.filter(victim=player, agreed_on=False).first()
+
+                murder_on_user = Murder.objects.filter(victim=player, agreed_on=False).first()
+                if murder_on_user is not None:
                     context['murder_confirmation'] = murder_on_user.murderer.user.name
-                except Murder.DoesNotExist:
-                    pass
-                try:
-                    Murder.objects.filter(murderer=player, agreed_on=False).first()
+
+                waiting = Murder.objects.filter(murderer=player, agreed_on=False)
+
+                if waiting is not None:
                     context['murder_waiting'] = "true"
-                except Murder.DoesNotExist:
+                else:
                     context['murder_waiting'] = "false"
+
                 context['user_score'] = player.get_score()
             except (Player.DoesNotExist, AttributeError):
                 pass
