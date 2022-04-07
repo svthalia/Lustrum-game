@@ -35,7 +35,7 @@ def index(request):
                 if murder_on_user is not None:
                     context['murder_confirmation'] = murder_on_user.murderer.user.name
 
-                waiting = Murder.objects.filter(murderer=player, agreed_on=False)
+                waiting = Murder.objects.filter(murderer=player, agreed_on=False).first()
 
                 if waiting is not None:
                     context['murder_waiting'] = "true"
@@ -80,8 +80,8 @@ def kill_confirm(request):
             try:
                 target_player = Player.objects.get(user=user)
                 if target_player is not None:
-                    try:
-                        murder = Murder.objects.filter(victim=target_player, agreed_on=False).first()
+                    murder = Murder.objects.filter(victim=target_player, agreed_on=False).first()
+                    if murder is not None:
                         murder.agreed_on = True
                         murder.save()
                         target_player.is_dead = True
@@ -96,7 +96,7 @@ def kill_confirm(request):
                             response_data["error"] = True
                             response_data["reason"] = "No new target"
                             return HttpResponse(json.dumps(response_data), content_type='application/json')
-                    except Murder.DoesNotExist:
+                    else:
                         response_data["error"] = True
                         response_data["reason"] = "No such murder"
                         return HttpResponse(json.dumps(response_data), content_type='application/json')
@@ -164,12 +164,13 @@ def kill_cancel(request):
         if user is not None:
             try:
                 victim = Player.objects.get(user=user)
-                try:
-                    murder = Murder.objects.filter(victim=victim, agreed_on=False).first()
+
+                murder = Murder.objects.filter(victim=victim, agreed_on=False).first()
+                if murder is not None:
                     murder.delete()
                     response_data["error"] = False
                     return HttpResponse(json.dumps(response_data), content_type='application/json')
-                except Murder.DoesNotExist:
+                else:
                     response_data["error"] = True
                     response_data["reason"] = "No such murder"
                     return HttpResponse(json.dumps(response_data), content_type='application/json')
