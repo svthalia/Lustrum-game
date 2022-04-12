@@ -163,9 +163,9 @@ def kill_cancel(request):
         user = authenticate(request, token=request.session["user"]["token"])
         if user is not None:
             try:
-                victim = Player.objects.get(user=user)
+                murderer = Player.objects.get(user=user)
 
-                murder = Murder.objects.filter(victim=victim, agreed_on=False).first()
+                murder = Murder.objects.filter(murderer=murderer, agreed_on=False).first()
                 if murder is not None:
                     murder.delete()
                     response_data["error"] = False
@@ -176,7 +176,7 @@ def kill_cancel(request):
                     return HttpResponse(json.dumps(response_data), content_type='application/json')
             except Player.DoesNotExist:
                 response_data["error"] = True
-                response_data["reason"] = "Victim does not exist"
+                response_data["reason"] = "Murderer does not exist"
                 return HttpResponse(json.dumps(response_data), content_type='application/json')
         else:
             request.session.pop('user', None)

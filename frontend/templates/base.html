@@ -196,6 +196,7 @@
                 modal.css("opacity", 0);
 
                 change_to_cancel_kill();
+                document.location.reload();
             })
         });
     }
@@ -224,9 +225,8 @@
                 $.get(window.location.origin + "/api/kill_target/confirm", function (result) {
                     modal.css("visibility", "hidden");
                     modal.css("opacity", 0);
-
-
                     reset();
+                    document.location.reload();
                 });
             });
 
@@ -258,6 +258,7 @@
                 change_to_kill();
                 kill_button.css("display", "block");
                 waiting.css("display", "none");
+                document.location.reload();
             })
         });
     }
