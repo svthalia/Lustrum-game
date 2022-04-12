@@ -172,7 +172,7 @@
         modal.css("opacity", 1);
     });
 
-    if ("{{ murder_confirmation }}" === "") {
+    if ("{{ murder_confirmation }}" === "" || {{  murder_waiting }}) {
         reset()
     } else {
         change_to_accept_kill()
