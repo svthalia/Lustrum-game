@@ -55,6 +55,34 @@ def login(request):
     return oauth.getOAuth().thalia.authorize_redirect(request, redirect_uri)
 
 
+def leaderboard(request):
+    context = {}
+    if 'user' in request.session:
+        user = authenticate(request, token=request.session["user"]["token"])
+        if user is not None:
+            context['user_name'] = user.name
+            context['user_profile_picture'] = user.profilePicture
+            murders = Murder.objects.all()
+            players = Player.objects.all()
+
+            scores = []
+            for player in players:
+                scores.append({"pk": player.user.pk, "name": player.user.name, "score": 0})
+            for murder in murders:
+                if murder.agreed_on:
+                    for x in range(len(scores)):
+                        if scores[x]['pk'] == murder.murderer.user.pk:
+                            scores[x]['score'] = scores[x]['score'] + 1
+                        elif scores[x]['pk'] == murder.victim.user.pk:
+                            scores[x]['score'] = scores[x]['score'] - 2
+
+            print(scores)
+            context['scores'] = scores
+        else:
+            request.session.pop('user', None)
+    return render(request, 'leaderboard/leaderboard.html', context)
+
+
 def auth(request):
     token = oauth.getOAuth().thalia.authorize_access_token(request)
     resp = oauth.getOAuth().thalia.get('', token=token)

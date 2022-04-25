@@ -1,0 +1,77 @@
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Lustrum gotcha game | leaderbord</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {% tailwind_css %}
+</head>
+<nav class=" bg-gold flex shadow shadow-lg">
+    <div class="container mx-auto my-3 flex flex-col md:flex-row justify-between">
+        <h3 class="text-white text-xl font-thalia text-center self-center md:mt-0 mt-2">Thalia lustrum game</h3>
+        {% if request.session.user == None %}
+            <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md transform hover:scale-110 transition ease-out self-center w-auto md:mt-0 mt-2">
+                <a href="/login">Login</a>
+            </button>
+        {% else %}
+            <div class="flex md:flex-row flex-col justify-center">
+                <h3 class="text-white text-xl font-thalia text-center self-center md:mt-0 mt-2 md:mr-5 mr-0">
+                    Hello {{ request.session.user.name }}</h3>
+                <button class="text-black text-xl font-thalia bg-white px-5 py-1 rounded-md transform hover:scale-110 transition ease-out self-center w-auto md:mt-0 mt-2">
+                    <a href="/logout">Logout</a>
+                </button>
+            </div>
+        {% endif %}
+    </div>
+</nav>
+<body class="pistol bg-gold h-full">
+<div class="container mx-auto">
+    {% if request.session.user == None %}
+        <section class="flex flex-col items-center justify-center mt-20">
+            <h1 class="text-5xl text-primary font-thalia text-center">Welcome to the lustrum game!</h1>
+            <h2 class="text-4xl text-primary font-thalia mt-10 text-center">Please login to see the game</h2>
+        </section>
+    {% else %}
+        <section class="flex w-screen">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Name
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    score
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody id="table" class="bg-white divide-y divide-gray-200">
+                            {% for user in scores %}
+                                <tr>
+                                    <td class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        score
+                                        {{ user.name }}</td>
+                                    <td class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        score{{ user.score }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+</div>
+</body>
