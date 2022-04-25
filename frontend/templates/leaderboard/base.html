@@ -1,5 +1,4 @@
-{% load static tailwind_tags %}
-
+{% load tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {% tailwind_css %}
 </head>
 <nav class=" bg-gold flex shadow shadow-lg">
@@ -39,19 +37,19 @@
             <h2 class="text-4xl text-primary font-thalia mt-10 text-center">Please login to see the game</h2>
         </section>
     {% else %}
-        <section class="flex w-screen">
+        <section class="mt-10 flex justify-center">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                    <div class="shadow overflow-hidden border-b border-gray-200 rounded-lg text-right">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+                            <thead class="bg-primary">
                             <tr>
                                 <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    class="px-6 py-3 text-left text-xs font-thalia text-white uppercase tracking-wider">
                                     Name
                                 </th>
                                 <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    class="px-6 py-3 text-left text-xs font-thalia text-white uppercase tracking-wider">
                                     score
                                 </th>
                             </tr>
@@ -59,11 +57,10 @@
                             <tbody id="table" class="bg-white divide-y divide-gray-200">
                             {% for user in scores %}
                                 <tr>
-                                    <td class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        score
+                                    <td class="px-6 py-3 text-left text-xs font-thalia text-gray-500 uppercase tracking-wider">
                                         {{ user.name }}</td>
-                                    <td class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        score{{ user.score }}</td>
+                                    <td class="px-6 py-3 text-left text-xs font-thalia text-gray-500 uppercase tracking-wider">
+                                        {{ user.score }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
