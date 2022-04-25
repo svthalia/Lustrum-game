@@ -55,6 +55,10 @@ def login(request):
     return oauth.getOAuth().thalia.authorize_redirect(request, redirect_uri)
 
 
+def takeScore(elem):
+    return elem['score']
+
+
 def leaderboard(request):
     context = {}
     if 'user' in request.session:
@@ -75,12 +79,11 @@ def leaderboard(request):
                             scores[x]['score'] = scores[x]['score'] + 1
                         elif scores[x]['pk'] == murder.victim.user.pk:
                             scores[x]['score'] = scores[x]['score'] - 2
-
-            print(scores)
+            scores.sort(key=takeScore, reverse=True)
             context['scores'] = scores
         else:
             request.session.pop('user', None)
-    return render(request, 'leaderboard/leaderboard.html', context)
+    return render(request, 'leaderboard/base.html', context)
 
 
 def auth(request):
